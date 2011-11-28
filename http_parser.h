@@ -29,17 +29,17 @@ extern "C" {
 
 #include <sys/types.h>
 #if defined(_WIN32) && !defined(__MINGW32__) && !defined(_MSC_VER)
-typedef __int8 int8_t;
-typedef unsigned __int8 uint8_t;
-typedef __int16 int16_t;
-typedef unsigned __int16 uint16_t;
-typedef __int32 int32_t;
-typedef unsigned __int32 uint32_t;
-typedef __int64 int64_t;
-typedef unsigned __int64 uint64_t;
+	typedef __int8 int8_t;
+	typedef unsigned __int8 uint8_t;
+	typedef __int16 int16_t;
+	typedef unsigned __int16 uint16_t;
+	typedef __int32 int32_t;
+	typedef unsigned __int32 uint32_t;
+	typedef __int64 int64_t;
+	typedef unsigned __int64 uint64_t;
 
-typedef unsigned int size_t;
-typedef int ssize_t;
+	typedef unsigned int size_t;
+	typedef int ssize_t;
 #else
 #include <stdint.h>
 #endif
@@ -59,7 +59,7 @@ typedef int ssize_t;
 #endif
 
 
-/* Maximium header size allowed */
+/* Maximum header size allowed */
 #define HTTP_MAX_HEADER_SIZE (80*1024)
 
 
@@ -77,7 +77,7 @@ typedef struct http_parser_result http_parser_result;
  * HEAD request which may contain 'Content-Length' or 'Transfer-Encoding:
  * chunked' headers that indicate the presence of a body.
  *
- * http_data_cb does not return data chunks. It will be call arbitrarally
+ * http_data_cb does not return data chunks. It will be call arbitrarily
  * many times for each string. E.G. you might get 10 callbacks for "on_path"
  * each providing just a few characters more data.
  */
@@ -96,7 +96,7 @@ enum http_method
   , HTTP_CONNECT
   , HTTP_OPTIONS
   , HTTP_TRACE
-  /* webdav */
+  /* WebDAV */
   , HTTP_COPY
   , HTTP_LOCK
   , HTTP_MKCOL
@@ -109,7 +109,7 @@ enum http_method
   , HTTP_MKACTIVITY
   , HTTP_CHECKOUT
   , HTTP_MERGE
-  /* upnp */
+  /* UPNP */
   , HTTP_MSEARCH
   , HTTP_NOTIFY
   , HTTP_SUBSCRIBE
@@ -207,8 +207,8 @@ struct http_parser {
   unsigned char header_state;
   unsigned char index;
 
-  uint32_t nread;
-  int64_t content_length;
+  size_t nread;
+  ptrdiff_t content_length;
 
   /** READ-ONLY **/
   unsigned short http_major;

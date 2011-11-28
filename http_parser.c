@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <http_parser.h>
+#include "http_parser.h"
 #include <assert.h>
 #include <stddef.h>
 
@@ -364,11 +364,11 @@ size_t http_parser_execute (http_parser *parser,
   char c, ch;
   int8_t unhex_val;
   const char *p = data, *pe;
-  int64_t to_read;
+  size_t to_read;
   enum state state;
   enum header_states header_state;
-  uint64_t index = parser->index;
-  uint64_t nread = parser->nread;
+  size_t index = parser->index;
+  size_t nread = parser->nread;
 
   /* technically we could combine all of these (except for url_mark) into one
      variable, saving stack space, but it seems more clear to have them
@@ -1578,7 +1578,7 @@ size_t http_parser_execute (http_parser *parser,
       }
 
       case s_body_identity:
-        to_read = MIN(pe - p, (int64_t)parser->content_length);
+        to_read = MIN(pe - p, parser->content_length);
         if (to_read > 0) {
           if (settings->on_body) settings->on_body(parser, p, to_read);
           p += to_read - 1;
@@ -1672,7 +1672,7 @@ size_t http_parser_execute (http_parser *parser,
       {
         assert(parser->flags & F_CHUNKED);
 
-        to_read = MIN(pe - p, (int64_t)(parser->content_length));
+        to_read = MIN(pe - p, parser->content_length);
 
         if (to_read > 0) {
           if (settings->on_body) settings->on_body(parser, p, to_read);
