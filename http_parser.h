@@ -48,7 +48,7 @@ extern "C" {
  * faster
  */
 #ifndef HTTP_PARSER_STRICT
-# define HTTP_PARSER_STRICT 1
+# define HTTP_PARSER_STRICT 0
 #endif
 
 /* Compile with -DHTTP_PARSER_DEBUG=1 to add extra debugging information to
@@ -205,7 +205,7 @@ struct http_parser {
   unsigned char flags : 6; /* F_* values from 'flags' enum; semi-public */
   unsigned char state;
   unsigned char header_state;
-  unsigned char index;
+  size_t index;
 
   size_t nread;
   ptrdiff_t content_length;
